@@ -44,7 +44,7 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         }
 
         [RelayCommand]
-        public async Task Save(SchoolClass schoolClassToSave)
+        private async Task Save(SchoolClass schoolClassToSave)
         {
             if (_schoolClassService != null)
             {
