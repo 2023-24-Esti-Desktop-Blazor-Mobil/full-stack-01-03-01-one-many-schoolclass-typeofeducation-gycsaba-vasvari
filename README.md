@@ -1,0 +1,1 @@
+# full-stack-01-01-01-one-many-schoolclass-typeofeducation
