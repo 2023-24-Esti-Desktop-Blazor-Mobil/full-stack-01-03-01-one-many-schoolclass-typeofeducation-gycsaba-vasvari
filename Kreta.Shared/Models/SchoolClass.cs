@@ -44,8 +44,10 @@ namespace Kreta.Shared.Models
                 case SchoolClassType.ClassB: className = "b"; break;
                 case SchoolClassType.ClassC: className = "c"; break;
             }
+            string typeOfEducation = TypeOfEducation is not null ? TypeOfEducation.ToString() : string.Empty;
             string archived = IsArchived ? "archivált" : string.Empty;
-            return $"{SchoolYear}.{className} ({YearOfEnrolment}) {archived}";
+            
+            return $"{SchoolYear}.{className} ({YearOfEnrolment}) {typeOfEducation} {archived}";
         }
     }
 }

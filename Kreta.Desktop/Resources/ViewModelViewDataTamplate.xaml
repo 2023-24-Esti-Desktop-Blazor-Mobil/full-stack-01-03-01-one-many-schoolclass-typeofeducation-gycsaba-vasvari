@@ -84,5 +84,8 @@
     <DataTemplate DataType="{x:Type administrationViewModel:EducationLevelViewModel}">
         <administrationView:EducationLevelView/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type administrationViewModel:TypeOfEducationViewModel}">
+        <administrationView:TypeOfEducationView/>
+    </DataTemplate>
 
 </ResourceDictionary>

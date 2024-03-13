@@ -15,8 +15,16 @@
                 HorizontalAlignment="Left"
                 Width="150"
                 Margin="32 0 0 0"
-                Content="Tanulmányi szint"
+                Content="Tanulmányi szintek"
                 Command=""
+            />
+            <Button 
+                Style="{StaticResource subMenuButton}"
+                HorizontalAlignment="Left"
+                Width="150"
+                Margin="32 0 0 0"
+                Content="Szakmák"
+                Command="{Binding ShowTypeOfEducatonCommand}"
             />
         </StackPanel>
     </Border>

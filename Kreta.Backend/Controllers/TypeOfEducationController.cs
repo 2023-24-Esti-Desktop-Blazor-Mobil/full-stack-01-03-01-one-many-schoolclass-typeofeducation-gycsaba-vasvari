@@ -12,7 +12,7 @@ namespace Kreta.Backend.Controllers
     [Route("api/[controller]")]
     public class TypeOfEducationController : BaseController<TypeOfEducation, TypeOfEducationDto>
     {
-        private readonly ITypeOfEducationRepo _typeOfEducationRepo;
+        private readonly ITypeOfEducationRepo? _typeOfEducationRepo;
         public TypeOfEducationController(TypeOfEducationAssambler? assambler, ITypeOfEducationRepo? repo) : base(assambler, repo)
         {
             _typeOfEducationRepo = repo;
@@ -22,7 +22,7 @@ namespace Kreta.Backend.Controllers
         public async Task<IActionResult> SelectAllIncludedAsync()
         {
             List<TypeOfEducation>? typeOfEducations = new();
-            if(_repo != null)
+            if(_typeOfEducationRepo != null && _assambler!=null)
             {
                 try
                 {

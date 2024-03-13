@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Kreta.Desktop.ViewModels.Base;
 using Kreta.HttpService.Services;
 using Kreta.Shared.Models;
+using Kreta.Shared.Responses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +14,7 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
     public partial class SchoolClassesManagmentViewModel : BaseViewModel
     {
         private ISchoolClassService? _schoolClassService;
+        private ITypeOfEducationService? _typeOfEducationService;
         public string Title { get; set; } = "Osztályok kezelése";
         
         [ObservableProperty]
@@ -20,12 +23,18 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         [ObservableProperty]
         private ObservableCollection<SchoolClass> _schoolClasses = new ObservableCollection<SchoolClass>();
 
+        [ObservableProperty]
+        private ObservableCollection<TypeOfEducation> _typeOfEducations = new();
+
         public SchoolClassesManagmentViewModel()
         {            
         }
-        public SchoolClassesManagmentViewModel(ISchoolClassService schoolClassService)
+        public SchoolClassesManagmentViewModel(
+            ISchoolClassService schoolClassService, 
+            ITypeOfEducationService? typeOfEducationService)
         {
             _schoolClassService = schoolClassService;
+            _typeOfEducationService = typeOfEducationService;
         }
 
         public override async Task InitializeAsync()        
@@ -34,12 +43,38 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
             await base.InitializeAsync();
         }
 
+        [RelayCommand]
+        public async Task Save(SchoolClass schoolClassToSave)
+        {
+            if (_schoolClassService != null)
+            {
+                ControllerResponse response = new ControllerResponse();
+                if (schoolClassToSave.HasId)
+                {
+                    response=await _schoolClassService.UpdateAsync(schoolClassToSave);
+                }
+                else
+                {
+                    response = await _schoolClassService.InsertAsync(schoolClassToSave);
+                }
+                if (response.IsSuccess)
+                {
+                    await UpdateView();
+                }
+            }
+        }
         private async Task UpdateView()
         {
             if (_schoolClassService!=null)
             {
-                List<SchoolClass> schoolClasses = await _schoolClassService.SelectAllAsync();
+                List<SchoolClass> schoolClasses = await _schoolClassService.SelectAllIncludedAsync();
                 SchoolClasses =new ObservableCollection<SchoolClass>(schoolClasses);
+            }
+
+            if (_typeOfEducationService is not null)
+            {
+                List<TypeOfEducation> typeOfEducations = await _typeOfEducationService.SelectAllAsync();
+                TypeOfEducations = new ObservableCollection<TypeOfEducation>(typeOfEducations);
             }
         }
     }
