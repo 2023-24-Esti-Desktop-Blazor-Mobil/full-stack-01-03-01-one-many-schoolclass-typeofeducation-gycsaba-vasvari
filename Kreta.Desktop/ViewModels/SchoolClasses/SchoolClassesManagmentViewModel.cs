@@ -16,7 +16,7 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         private ISchoolClassService? _schoolClassService;
         private ITypeOfEducationService? _typeOfEducationService;
         public string Title { get; set; } = "Osztályok kezelése";
-        
+
         [ObservableProperty]
         private SchoolClass _selectedSchoolClass = new SchoolClass();
 
@@ -27,21 +27,39 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         private ObservableCollection<TypeOfEducation> _typeOfEducations = new();
 
         public SchoolClassesManagmentViewModel()
-        {            
+        {
         }
         public SchoolClassesManagmentViewModel(
-            ISchoolClassService schoolClassService, 
+            ISchoolClassService schoolClassService,
             ITypeOfEducationService? typeOfEducationService)
         {
             _schoolClassService = schoolClassService;
             _typeOfEducationService = typeOfEducationService;
         }
 
-        public override async Task InitializeAsync()        
+        public override async Task InitializeAsync()
         {
             await UpdateView();
             await base.InitializeAsync();
         }
+
+        [RelayCommand]
+        private void New()
+        {
+            SelectedSchoolClass = new();
+        }
+
+        [RelayCommand]
+        private async Task Delete(SchoolClass schoolClassToDelete)
+        {
+            if (_schoolClassService is not null)
+            {
+                ControllerResponse response = await _schoolClassService.DeleteAsync(schoolClassToDelete.Id);
+                if (response.IsSuccess)
+                    await UpdateView();
+            }
+        }
+
 
         [RelayCommand]
         private async Task Save(SchoolClass schoolClassToSave)

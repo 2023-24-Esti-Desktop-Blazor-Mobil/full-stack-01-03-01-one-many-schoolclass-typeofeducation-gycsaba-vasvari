@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Kreta.Desktop.Views.Administration"
              xmlns:viewModel="clr-namespace:Kreta.Desktop.ViewModels.Administration"
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=viewModel:TypeOfEducationViewModel, IsDesignTimeCreatable=True}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -60,10 +61,18 @@
                  ItemsSource="{Binding TypeOfEducations}"
                  SelectedItem="{Binding SelectedTypeOfEducation}"
         >
+            <behaviors:Interaction.Triggers>
+                <behaviors:EventTrigger EventName="SelectionChanged">
+                    <behaviors:InvokeCommandAction Command="{Binding GetByTypeOfEducationIdCommand}" 
+                                                   CommandParameter="{Binding SelectedTypeOfEducation.Id}"/>
+                </behaviors:EventTrigger>
+            </behaviors:Interaction.Triggers>
         </ListBox>
 
         <Label Grid.Row="2" Grid.Column="2">Szakmát tanuló osztályok</Label>
-        <ListBox Grid.Row="3" Grid.Column="2" Margin="2 2 2 2"></ListBox>
+        <ListBox Grid.Row="3" Grid.Column="2" Margin="2 2 2 2"
+                 ItemsSource="{Binding SchoolClasses}">
+        </ListBox>
         
         <StackPanel Grid.Row="4" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button FontFamily="Segoe UI Symbol" MinWidth="40" Content="&#xE1FD;"

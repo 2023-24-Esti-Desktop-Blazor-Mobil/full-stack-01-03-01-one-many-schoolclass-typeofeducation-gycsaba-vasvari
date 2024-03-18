@@ -49,6 +49,7 @@
                      HorizontalAlignment="Right" 
                      MinWidth="80" 
                      Content="Új adat"
+                     Command="{Binding NewCommand}"
                      />
             <Button  Margin="0 10 2 2" 
                      HorizontalAlignment="Right" 
@@ -61,6 +62,8 @@
                      HorizontalAlignment="Right"
                      MinWidth="80"
                      Content="Törlés"
+                     Command="{Binding DeleteCommand}"
+                     CommandParameter="{Binding SelectedSchoolClass}"
                      />
         </StackPanel>
         <xwpftk:IntegerUpDown HorizontalAlignment="Left" MinWidth="40" Grid.Row="2" Grid.Column="1" Margin="2 2 100 2" Minimum="1" Maximum="14" Value="{Binding SelectedSchoolClass.SchoolYear}"></xwpftk:IntegerUpDown>
