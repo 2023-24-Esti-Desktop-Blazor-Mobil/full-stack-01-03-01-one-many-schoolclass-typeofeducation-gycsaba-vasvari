@@ -6,5 +6,6 @@ namespace Kreta.HttpService.Services
     {
         public Task<List<SchoolClass>> SelectAllIncludedAsync();
         public Task<List<SchoolClass>> GetByTypeofEducationIdAsync(Guid typeOfEducationID);
+        Task<List<SchoolClass>> GetSchoolClassesWithoutTypeOfEducation();
     }
 }

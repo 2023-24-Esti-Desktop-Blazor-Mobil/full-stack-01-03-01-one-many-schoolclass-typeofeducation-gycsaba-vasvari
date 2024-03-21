@@ -11,7 +11,6 @@ namespace Kreta.Desktop.ViewModels.Administration
         private EducationLevelViewModel? _educationLevelViewModel;
         private TypeOfEducationViewModel? _typeOfEducationViewModel;
 
-
         [ObservableProperty]
         private BaseViewModel _currentAdministrationChildView;
 

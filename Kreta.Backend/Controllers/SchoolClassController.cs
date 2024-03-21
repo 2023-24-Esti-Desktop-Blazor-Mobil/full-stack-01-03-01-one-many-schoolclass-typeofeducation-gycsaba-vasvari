@@ -53,5 +53,24 @@ namespace Kreta.Backend.Controllers
             }
             return BadRequest("Az adatok elérhetetlenek!");
         }
+
+        [HttpGet("withouttypeofeducation")]
+        public async Task<IActionResult> SelectWithoutTypeOfEducation()
+        {
+            List<SchoolClass>? schoolClasses = new();
+            if (_schoolClassRepo != null && _assambler is not null)
+            {
+                try
+                {
+                    schoolClasses = await _schoolClassRepo.SelectWithoutTypeOfEducation().ToListAsync();
+                    return Ok(schoolClasses.Select(entity => _assambler.ToDto(entity)));
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return BadRequest("Az adatok elérhetetlenek!");
+        }
     }
 }

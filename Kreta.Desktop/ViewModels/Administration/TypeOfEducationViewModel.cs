@@ -7,6 +7,7 @@ using Kreta.Shared.Responses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Kreta.Desktop.ViewModels.Administration
@@ -25,9 +26,16 @@ namespace Kreta.Desktop.ViewModels.Administration
         [ObservableProperty]
         private ObservableCollection<SchoolClass> schoolClasses = new();
 
+        [ObservableProperty]
+        private SchoolClass _selectedSchoolClass = new();
 
         [ObservableProperty]
         private TypeOfEducation _selectedTypeOfEducation=new();
+
+        [ObservableProperty]
+        private ObservableCollection<SchoolClass> _schoolClassesWithoutTypeOfEducation = new();
+        [ObservableProperty]
+        private SchoolClass _selectedSchoolClassesWithoutTypeOfEducation = new();
 
         public TypeOfEducationViewModel()
         {                 
@@ -87,12 +95,42 @@ namespace Kreta.Desktop.ViewModels.Administration
                 SchoolClasses = new ObservableCollection<SchoolClass>(schoolClasses);
             }
         }
+
+        [RelayCommand]
+        private async Task MoveSchoolClassToWithoutTypeOfEducation()
+        {
+            if (_schoolClassService is not null)
+            {
+                SelectedSchoolClass.TypeOfEducationId = null;
+                ControllerResponse result = await _schoolClassService.UpdateAsync(SelectedSchoolClass);
+                if (result.IsSuccess)
+                    await UpdateView();
+            }
+        }
+
+        [RelayCommand]
+        private async Task MoveToWithTypeOfEducation()
+        { 
+            if (_schoolClassService is not null)
+            {
+                SelectedSchoolClassesWithoutTypeOfEducation.TypeOfEducationId =
+                    SelectedTypeOfEducation.Id;
+                ControllerResponse result = await _schoolClassService.UpdateAsync(
+                    SelectedSchoolClassesWithoutTypeOfEducation);
+                if (result.IsSuccess)
+                    await UpdateView();
+            }
+        }
+
         private async Task UpdateView()
         {
-            if (_typeOfEducationService is not null)
+            if (_typeOfEducationService is not null && _schoolClassService is not null)
             {
                 List<TypeOfEducation> typeOfEducations = await _typeOfEducationService.SelectAllAsync();
                 TypeOfEducations = new ObservableCollection<TypeOfEducation>(typeOfEducations);
+
+                List<SchoolClass> schoolClasses = await _schoolClassService.GetSchoolClassesWithoutTypeOfEducation();
+                SchoolClassesWithoutTypeOfEducation = new ObservableCollection<SchoolClass>(schoolClasses);
             }
         }
     }

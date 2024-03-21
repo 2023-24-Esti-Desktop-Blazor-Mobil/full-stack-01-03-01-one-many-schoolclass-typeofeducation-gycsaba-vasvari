@@ -391,6 +391,7 @@ namespace Kreta.Backend.Context
             Guid schoolClassId1 = Guid.NewGuid();
             Guid schoolClassId2 = Guid.NewGuid();
             Guid schoolClassId3 = Guid.NewGuid();
+            Guid schoolClassId4 = Guid.NewGuid();
             List<SchoolClass> schoolClasses = new List<SchoolClass>
             {
                 new SchoolClass
@@ -420,6 +421,15 @@ namespace Kreta.Backend.Context
                     YearOfEnrolment=2024,
                     IsArchived=false,
                     TypeOfEducationId=typeOfEducation3,
+                },
+                new SchoolClass
+                {
+                    Id=schoolClassId4,
+                    SchoolYear=11,
+                    SchoolClassType=SchoolClassType.ClassC,
+                    YearOfEnrolment=2021,
+                    IsArchived=false,
+                    TypeOfEducationId=null,
                 },
             };
 

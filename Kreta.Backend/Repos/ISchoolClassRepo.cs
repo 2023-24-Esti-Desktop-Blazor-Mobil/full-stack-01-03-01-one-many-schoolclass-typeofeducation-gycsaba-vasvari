@@ -6,5 +6,6 @@ namespace Kreta.Backend.Repos
     {
         public IQueryable<SchoolClass> SelectAllIncluded();
         public IQueryable<SchoolClass> GetSchoolClassBy(Guid typeOfEducationID);
+        public IQueryable<SchoolClass> SelectWithoutTypeOfEducation();
     }
 }
